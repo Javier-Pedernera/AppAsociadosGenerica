@@ -13,12 +13,14 @@ import { formatDateToDDMMYYYY, formatDateToYYYYMMDD } from '../utils/formatDate'
 import { AppDispatch } from '../redux/store/store';
 import { createPromotion } from '../redux/actions/promotionsActions';
 import Loader from './Loader';
+import { useTranslation } from 'react-i18next';
 
 interface PromotionFormProps {
   onClose: () => void;
 }
 
 const PromotionForm: React.FC<PromotionFormProps> = ({ onClose }) => {
+  const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(getMemoizedUserData);
   const allCategories = useSelector(getMemoizedAllCategories);
@@ -50,11 +52,11 @@ const PromotionForm: React.FC<PromotionFormProps> = ({ onClose }) => {
     // console.log(title, description, startDate?.toISOString().split('T')[0], endDate?.toISOString().split('T')[0], discountPercentage, availableQuantity, selectedCategories, imagePaths.length);
 setLoading(true)
     if (!user?.user_id || !partner?.branches[0].branch_id) {
-      Alert.alert('Error', 'No se pudo obtener el ID del socio o la sucursal. Intente de nuevo.');
+      Alert.alert(t('promotionForm.fail'), t('promotionForm.partnerError'));
       return;
     }
     if (!title || !description || !startDate || !endDate || discountPercentage === null || selectedCategories.length === 0 || imagePaths.length === 0) {
-      Alert.alert('Error', 'Por favor complete todos los campos');
+      Alert.alert(t('promotionForm.fail'), t('promotionForm.error'));
       return;
     }
     const promotionData = {
@@ -74,11 +76,11 @@ setLoading(true)
     await dispatch(createPromotion(promotionData))
       .then(() => {
         setLoading(false)
-        Alert.alert('Éxito', 'La promoción ha sido creada correctamente.');
+        Alert.alert(t('promotionForm.succ'), t('promotionForm.success'));
         onClose(); // Puedes cerrar el modal o hacer alguna otra acción
       })
       .catch((error: any) => {
-        Alert.alert('Error', 'Hubo un problema al crear la promoción. Intente de nuevo.');
+        Alert.alert(t('promotionForm.fail'), 'Hubo un problema al crear la promoción. Intente de nuevo.');
         console.error("Error al crear la promoción: ", error);
       });
 
@@ -125,27 +127,27 @@ setLoading(true)
       {loading&& <Loader/>}
       <TextInput
         style={styles.input}
-        placeholder="Título"
+        placeholder={t('promotionForm.titlePlaceholder')}
         value={title}
         onChangeText={setTitle}
       />
       <TextInput
         style={styles.descriptionInput}
-        placeholder="Descripción"
+        placeholder={t('promotionForm.descriptionPlaceholder')}
         value={description}
         onChangeText={setDescription}
         multiline
       />
       <TextInput
         style={styles.input}
-        placeholder="Porcentaje de Descuento"
+        placeholder={t('promotionForm.discountPercentagePlaceholder')}
         keyboardType="numeric"
         value={typeof discountPercentage === 'number' ? discountPercentage.toString() : ''}
         onChangeText={(text) => setDiscountPercentage(Number(text))}
       />
       <TextInput
         style={styles.input}
-        placeholder="Cantidad Disponible"
+        placeholder={t('promotionForm.availableQuantityPlaceholder')}
         keyboardType="numeric"
         value={typeof availableQuantity === 'number' ? availableQuantity.toString() : ''}
         onChangeText={(text) => setAvailableQuantity(Number(text))}
@@ -156,7 +158,7 @@ setLoading(true)
         onPress={() => setCategoriesModalVisible(true)}
       >
         <MaterialIcons name="category" size={24} color="#fff" />
-        <Text style={styles.submitButtonText}>Seleccionar Categorías</Text>
+        <Text style={styles.submitButtonText}>{t('promotionForm.selectCategories')}</Text>
       </TouchableOpacity >
       <CategoryPicker
         categories={allCategories}
@@ -171,9 +173,9 @@ setLoading(true)
       <View style={styles.datePickerContainer}>
         {!showStartDatePicker && (
           <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={styles.inputdate}>
-            {startDate ? <Text style={styles.textDate}>Inicia</Text> : <Text></Text>}
+            {startDate ? <Text style={styles.textDate}>{t('promotionForm.start')}</Text> : <Text></Text>}
             <Text style={styles.textDate}>
-              {startDate ? formatDateToDDMMYYYY(startDate.toISOString().split('T')[0]) : 'Fecha de Inicio (DD-MM-YYYY)'}
+              {startDate ? formatDateToDDMMYYYY(startDate.toISOString().split('T')[0]) : t('promotionForm.startDate')}
             </Text>
           </TouchableOpacity>
         )}
@@ -187,7 +189,7 @@ setLoading(true)
             />
             {Platform.OS === 'ios' && (
               <TouchableOpacity onPress={confirmStartDate} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Confirmar fecha</Text>
+                <Text style={styles.submitButtonText}>{t('promotionForm.confirmDate')}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -197,9 +199,9 @@ setLoading(true)
       <View style={styles.datePickerContainer}>
         {!showEndDatePicker && (
           <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={styles.inputdate}>
-            {endDate ? <Text style={styles.textDate}>Finaliza</Text> : <Text></Text>}
+            {endDate ? <Text style={styles.textDate}>{t('promotionForm.end')}</Text> : <Text></Text>}
             <Text style={styles.textDate}>
-              {endDate ? formatDateToDDMMYYYY(endDate.toISOString().split('T')[0]) : 'Fecha de Fin (DD-MM-YYYY)'}
+              {endDate ? formatDateToDDMMYYYY(endDate.toISOString().split('T')[0]) : t('promotionForm.endDate')}
             </Text>
           </TouchableOpacity>
         )}
@@ -213,7 +215,7 @@ setLoading(true)
             />
             {Platform.OS === 'ios' && (
               <TouchableOpacity onPress={confirmEndDate} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Confirmar fecha</Text>
+                <Text style={styles.submitButtonText}>{t('promotionForm.confirmDate')}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -221,10 +223,10 @@ setLoading(true)
       </View>
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Crear Promoción</Text>
+        <Text style={styles.submitButtonText}>{t('promotionForm.createPromotion')}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-        <Text style={styles.closeButtonText}>Cancelar</Text>
+        <Text style={styles.closeButtonText}>{t('promotionForm.cancel')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

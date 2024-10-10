@@ -23,6 +23,46 @@
     "associates": "ASOCIADOS",
     "version": "Versión Beta"
   },
+  "qrScanner": {
+    "scanQRButton": "Escanear QR",
+    "consumptionsButton": "Consumos",
+    "invalidCode":"Código QR inválido",
+    "scanQRCode": "Debes escanear el QR de la credencial que realiza el consumo.",
+    "permissionAlert": {
+      "title": "Permiso de cámara necesario",
+      "message": "Se requiere acceso a la cámara para escanear el código QR.",
+      "requestPermission": "Solicitar permiso",
+      "cancel": "Cancelar",
+      "permissionDenied": "Permiso denegado",
+      "goToSettings": "Por favor, habilita el permiso de la cámara en la configuración."
+    },
+    "clientLabel": "Cliente:",
+    "noUserDetected": "Usuario no detectado",
+    "selectPromotion": "Selecciona la promoción a consumir",
+    "selectPromotionPlaceholder": "* Selecciona una promoción",
+    "availableQuantity": "Disponibles:",
+    "noLimit": "Sin límite",
+    "quantityInputPlaceholder": "Cantidad de promociones consumidas",
+    "amountInputPlaceholder": "Monto consumido",
+    "descriptionInputPlaceholder": "Descripción",
+    "confirmButton": "Confirmar",
+    "cancelButton": "Cancelar",
+    "successAlert": {
+      "title": "Éxito",
+      "message": "Consumo de promoción registrado correctamente."
+    },
+    "errorAlert": {
+      "title": "Error",
+      "message": "No se pudo registrar el consumo de la promoción. Intenta de nuevo."
+    },
+    "termsModal": {
+      "termsAccepted": "Términos aceptados",
+      "termsNotAccepted": "Términos no aceptados",
+      "termsAcceptedMessage": "Has aceptado los términos y condiciones.",
+      "termsNotAcceptedMessage": "Has rechazado los términos y condiciones.",
+      "logoutRedirect": "Has sido redirigido al inicio de sesión."
+    }
+  },
   "register": {
     "firstNamePlaceholder": "* Nombre",
     "lastNamePlaceholder": "* Apellido",
@@ -46,9 +86,9 @@
     "other": "Otro"
   },
   "branches": {
-    "searchByName": "Buscar por nombre",
-    "searchByAddress": "Buscar por dirección",
-    "noBranchesFound": "No se encontraron sucursales."
+    "yourActiveBranches": "Tus sucursales activas",
+    "view": "Ver",
+    "createBranch": "Crear Sucursal"
   },
   "promotions": {
     "searchPromotions": "Buscar promociones",
@@ -66,8 +106,31 @@
     "clear": "Limpiar",
     "categoriesModal": "Categorías",
     "confirmStartDate": "Confirmar fecha de inicio",
-    "confirmEndDate": "Confirmar fecha de fin"
+    "confirmEndDate": "Confirmar fecha de fin",
+    "create": "Crear",
+    "firstCreateBranch": "Primero debes crear una sucursal",
+    "noPromotionsCreated": "No hay promociones creadas."
   },
+  "promotionForm": {
+    "titlePlaceholder": "Título",
+    "descriptionPlaceholder": "Descripción",
+    "discountPercentagePlaceholder": "Porcentaje de Descuento",
+    "availableQuantityPlaceholder": "Cantidad Disponible",
+    "selectCategories": "Seleccionar Categorías",
+    "addImages": "Agregar Imágenes",
+    "confirmDate": "Confirmar fecha",
+    "createPromotion": "Crear Promoción",
+    "cancel": "Cancelar",
+    "startDate": "Fecha de Inicio (DD-MM-YYYY)",
+    "endDate": "Fecha de Fin (DD-MM-YYYY)",
+    "start": "Inicia",
+    "end": "Finaliza",
+    "fail":"Error",
+    "succ":"Éxito",
+    "error": "Por favor complete todos los campos",
+    "success": "La promoción ha sido creada correctamente.",
+    "partnerError": "No se pudo obtener el ID del socio o la sucursal. Intente de nuevo."
+},
   "sidebar": {
     "profile": "Perfil",
     "favorites": "Favoritos",
@@ -121,5 +184,40 @@
     "editCategories": "Editar Categorías",
     "saveCategories": "Guardar Categorías",
     "cancel": "Cancelar"
+  },
+  "promotionCard": {
+    "preview": "Vista Previa",
+    "from": "Desde",
+    "to": "Hasta",
+    "available": "Disponibles",
+    "unlimited": "Sin límite",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar esta promoción?",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "editPromotionForm": {
+    "title": "Título",
+    "description": "Descripción",
+    "discountPercentage": "% de descuento",
+    "quantity": "Cantidad Disponible",
+    "selectCategories": "Seleccionar Categorías",
+    "currentImages": "Imágenes actuales",
+    "noImages": "No hay imágenes existentes.",
+    "startDateCurrent": "Fecha de inicio actual",
+    "startDate": "Inicia",
+    "modifyStartDate": "Modificar fecha de inicio",
+    "confirmDate": "Confirmar fecha",
+    "endDateCurrent": "Fecha de fin actual",
+    "endDate": "Finaliza",
+    "modifyEndDate": "Modificar fecha de Fin",
+    "saveChanges": "Guardar Cambios",
+    "cancel": "Cancelar",
+    "error": "Error",
+    "completeFields": "Por favor complete todos los campos",
+    "success": "Éxito",
+    "promotionUpdated": "La promoción ha sido actualizada correctamente.",
+    "partnerBranchError": "No se pudo obtener el ID del socio o la sucursal. Intente de nuevo.",
+    "promotionIdError": "No hay ID de promoción",
+    "updateError": "Hubo un problema al actualizar la promoción. Intente de nuevo."
   }
 }

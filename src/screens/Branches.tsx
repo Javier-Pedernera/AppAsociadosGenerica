@@ -5,11 +5,12 @@ import { getMemoizedBranches } from '../redux/selectors/branchSelectors';
 import { BranchForm } from '../components/BranchForm';
 import SemicirclesOverlay from '../components/SemicirclesOverlay';
 import { Dimensions } from 'react-native';
-
+import { useTranslation } from 'react-i18next';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const Branches: React.FC = () => {
+  const { t } = useTranslation();
   const branches = useSelector(getMemoizedBranches);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState(null);
@@ -32,7 +33,7 @@ const Branches: React.FC = () => {
   return (
     <View style={styles.container}>
       <SemicirclesOverlay/>
-      <Text style={styles.nameTitle}>Tus sucursales activas</Text>
+      <Text style={styles.nameTitle}>{t('branches.yourActiveBranches')}</Text>
       <FlatList
         data={branches}
         keyExtractor={(item) => item.branch_id.toString()}
@@ -45,7 +46,7 @@ const Branches: React.FC = () => {
                 style={styles.viewButton}
                 onPress={() => handleView(item)}
               >
-                <Text style={styles.buttonText}>Ver</Text>
+                <Text style={styles.buttonText}>{t('branches.view')}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -53,7 +54,7 @@ const Branches: React.FC = () => {
       />
       {!branches.length && (
         <TouchableOpacity style={styles.createButton} onPress={handleCreate}>
-          <Text style={styles.createButtonText}>Crear Sucursal</Text>
+          <Text style={styles.createButtonText}>{t('branches.createBranch')}</Text>
         </TouchableOpacity>
       )}
 

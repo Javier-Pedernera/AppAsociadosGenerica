@@ -20,10 +20,12 @@ import { updatePromotion } from '../redux/reducers/promotionReducer';
 import { deletePromotion } from '../redux/actions/promotionsActions';
 import EditPromotionForm from '../components/EditPromotionForm';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const PromotionsScreen: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const promotions = useSelector(getMemoizedPromotions);
   // const categories = useSelector(getMemoizedAllCategories);
@@ -185,7 +187,7 @@ const PromotionsScreen: React.FC = () => {
   };
   const handleCreatePress = useCallback(() => {
     if (partner && partner.branches.length === 0) {
-      Alert.alert("Error", "Primero debes crear una sucursal");
+      Alert.alert(t('qrScanner.errorAlert.title'), t('promotions.firstCreateBranch'));
     } else {
       setIsCreateModalVisible(true);
     }
@@ -201,7 +203,7 @@ const PromotionsScreen: React.FC = () => {
           <MaterialCommunityIcons name="ticket-percent-outline" size={24} color="#fff" />
           </View>
           
-          <Text style={styles.createButtonText}>Crear</Text>
+          <Text style={styles.createButtonText}>{t('promotions.create')}</Text>
         </TouchableOpacity>
       </View>
       <ScrollView contentContainerStyle={styles.container}>
@@ -236,7 +238,7 @@ const PromotionsScreen: React.FC = () => {
           ))
         ) : (
           <View style={styles.noPromotionsContainer}>
-            <Text style={styles.noPromotionsText}>No hay promociones creadas.</Text>
+            <Text style={styles.noPromotionsText}>{t('promotions.noPromotionsCreated')}</Text>
           </View>
         ))}
       </ScrollView>

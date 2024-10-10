@@ -7,10 +7,12 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 
 const { width: screenWidth } = Dimensions.get('window');
 
 const CustomHeader: React.FC = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const user = useSelector(getMemoizedUserData);
@@ -27,7 +29,7 @@ const CustomHeader: React.FC = () => {
   };
   return (
     <View style={styles.headerContainer}>
-        <Text style={styles.userName}>Hola, {user.first_name}</Text>
+        <Text style={styles.userName}>{t('navBar.greeting')} {user.first_name}</Text>
         <TouchableOpacity style={styles.imageCont} onPress={() => setModalVisible(true)}>
       <View style={styles.avatarContainer}>
         {user?.image_url ? (

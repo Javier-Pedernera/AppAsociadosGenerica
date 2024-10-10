@@ -121,12 +121,12 @@ const LoginScreen: React.FC = () => {
         {/* <Text style={styles.forgotPasswordText}>No tienes cuenta? Contáctanos</Text> */}
         {loading && <Loader />}
       </View>
-        <Text  style={styles.versionText} >{t('login.version')} 0.1.3</Text>
+        <Text  style={styles.versionText} >{t('login.version')} {process.env.EXPO_PUBLIC_API_VERSION}</Text>
       <Modal isVisible={isModalVisible}>
         <View style={styles.modalContent}>
           <Text style={styles.modalMessage}>{modalMessage}</Text>
           <TouchableOpacity style={styles.modalButton} onPress={toggleModal}>
-            <Text style={styles.modalButtonText}>Cerrar</Text>
+            <Text style={styles.modalButtonText}>{t('login.close')}</Text>
           </TouchableOpacity>
         </View>
       </Modal>

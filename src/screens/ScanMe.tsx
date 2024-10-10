@@ -22,6 +22,7 @@ import { RootStackParamList } from '../navigation/AppNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
 import TermsModal from '../components/TermsModal';
 import Loader from '../components/Loader';
+import { useTranslation } from 'react-i18next';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 type homeScreenProp = StackNavigationProp<RootStackParamList>;
@@ -32,6 +33,7 @@ interface ScanData {
 }
 
 const QRScanButton = () => {
+  const { t } = useTranslation();
   const user = useSelector(getMemoizedUserData) as UserData;
   const statuses = useSelector(getMemoizedStates);
   const accessToken = useSelector(getMemoizedAccessToken);
@@ -88,15 +90,15 @@ const QRScanButton = () => {
       requestPermission();
     } else if (!permission.granted) {
       Alert.alert(
-        "Permiso de cámara necesario",
-        "Se requiere acceso a la cámara para escanear el código QR.",
+        t('qrScanner.permissionAlert.title'),
+        t('qrScanner.permissionAlert.message'),
         [
           {
-            text: "Solicitar permiso",
+            text: t('qrScanner.permissionAlert.requestPermission'),
             onPress: requestPermission,
           },
           {
-            text: "Cancelar",
+            text: t('qrScanner.permissionAlert.cancel'),
             style: "cancel",
           },
         ]
@@ -145,7 +147,7 @@ const QRScanButton = () => {
       await dispatch(getUserInfo(accessToken))
       setModalTermsVisible(false);
       setIsLoading(false)
-      Alert.alert('Términos aceptados', 'Has aceptado los términos y condiciones.');
+      Alert.alert(t('qrScanner.termsModal.termsAccepted'), t('qrScanner.termsModal.termsAcceptedMessage'));
     } catch (error) {
       console.error('Error al aceptar los términos:', error);
     }
@@ -153,7 +155,7 @@ const QRScanButton = () => {
   const handleCancelTerms = async () => {
     await dispatch(logOutUser());
     setModalTermsVisible(false);
-    Alert.alert('Términos no aceptados', 'Has rechazado los términos y condiciones.');
+    Alert.alert(t('qrScanner.termsModal.termsNotAccepted'), t('qrScanner.termsModal.termsNotAcceptedMessage'));
     navigation.navigate('Login');
   };
 
@@ -194,14 +196,22 @@ const QRScanButton = () => {
         setCameraVisible(false);
       }, 10000);
     } else {
-      Alert.alert("Permiso denegado", "Por favor, habilita el permiso de la cámara en la configuración.");
+      Alert.alert(t('qrScanner.permissionAlert.permissionDenied'), t('qrScanner.permissionAlert.goToSettings'));
     }
   };
 
   const handleBarCodeScanned = ({ type, data }: ScanData) => {
-    // console.log('Scanned QR Code:', data);
+    console.log('Scanned QR Code:', data);
     setCameraVisible(false);
     const [userId, email] = data.split('-');
+    if (!userId || !email) {
+      Alert.alert(
+        t('qrScanner.invalidCode'),
+        t('qrScanner.scanQRCode'),
+          [{ text: "OK" }]
+      );
+      return;
+  }
     setScannedUser(userId);
     setScannedEmail(email)
     setModalVisible(true);
@@ -217,7 +227,7 @@ const QRScanButton = () => {
     const status = statuses.find(status => status.name === 'active');
 
     if (!selectedPromotion || !quantityConsumed || !amountSpent) {
-      Alert.alert("Error", "Debes completar todos los campos.");
+      Alert.alert(t('qrScanner.errorAlert.title'), "Debes completar todos los campos.");
       return;
     }
 
@@ -243,12 +253,12 @@ const QRScanButton = () => {
         setDescription('');
         setScannedUser(null);
         setScannedEmail(null);
-        Alert.alert("Éxito", "Consumo de promoción registrado correctamente.");
+        Alert.alert(t('qrScanner.successAlert.title'), t('qrScanner.successAlert.message'));
       } else {
-        Alert.alert("Error", "No se pudo registrar el consumo de la promoción. Intenta de nuevo.");
+        Alert.alert(t('qrScanner.errorAlert.title'), t('qrScanner.errorAlert.message'));
       }
     } catch (error) {
-      Alert.alert("Error", "Ocurrió un error al registrar el consumo de la promoción.");
+      Alert.alert(t('qrScanner.errorAlert.title'), "Ocurrió un error al registrar el consumo de la promoción.");
     }
 
     setModalVisible(false);
@@ -272,7 +282,7 @@ const QRScanButton = () => {
   const handleQuantityChange = (text: string) => {
     const quantity = parseInt(text, 10);
     if (selectedPromotion && selectedPromotion.available_quantity && quantity > selectedPromotion.available_quantity) {
-      Alert.alert("Error", `No puedes consumir más de ${selectedPromotion.available_quantity} promociones.`);
+      Alert.alert(t('qrScanner.errorAlert.title'), `No puedes consumir más de ${selectedPromotion.available_quantity} promociones.`);
       return;
     }
     setQuantityConsumed(text);
@@ -333,20 +343,20 @@ const QRScanButton = () => {
         />
       </View>
       <TouchableOpacity style={styles.button} onPress={handleQRScan}>
-        <Text style={styles.buttonText}>Escanear QR</Text>
+        <Text style={styles.buttonText}>{t('qrScanner.scanQRButton')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonconsumidas}
         onPress={() => setModalConsumedVisible(true)}
       >
-        <Text style={styles.buttonTextconsum}>Consumos</Text>
+        <Text style={styles.buttonTextconsum}>{t('qrScanner.consumptionsButton')}</Text>
       </TouchableOpacity>
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <View style={styles.formContainer}>
             <View style={styles.userName}>
               <Text style={styles.userText}>
-                Cliente:
+              {t('qrScanner.clientLabel')}
               </Text>
               {scannedEmail ? (
                 <Text style={styles.userText2}>
@@ -354,20 +364,20 @@ const QRScanButton = () => {
                 </Text>
               ) : (
                 <Text style={styles.quantityTextError}>
-                  Usuario no detectado
+                  {t('qrScanner.noUserDetected')}
                 </Text>
               )}
             </View>
 
             {/* Línea horizontal */}
             <View style={styles.line} />
-            <Text style={styles.modalTitle}>Selecciona la promoción a consumir</Text>
+            <Text style={styles.modalTitle}>{t('qrScanner.selectPromotion')}</Text>
             <View style={styles.pickerContainer}>
               <Picker
                 selectedValue={selectedPromotion}
                 onValueChange={(itemValue) => handlePromotionSelect(itemValue)}
                 style={styles.picker}
-              ><Picker.Item label="* Selecciona una promoción" value={null} />
+              ><Picker.Item label={t('qrScanner.selectPromotionPlaceholder')} value={null} />
                 {filteredPromotions.map((promotion) => (
                   <Picker.Item
                     key={promotion.promotion_id}
@@ -382,16 +392,16 @@ const QRScanButton = () => {
               selectedPromotion &&
               <View style={styles.quantity}>
                 <Text style={styles.quantityText}>
-                  Disponibles:
+                {t('qrScanner.availableQuantity')}
                 </Text>
                 <Text style={styles.quantityText2}>
-                  {selectedPromotion.available_quantity ? selectedPromotion.available_quantity : 'Sin límite'}
+                  {selectedPromotion.available_quantity ? selectedPromotion.available_quantity : t('qrScanner.noLimit')}
                 </Text>
               </View>
             }
             <TextInput
               style={styles.input}
-              placeholder="Cantidad de promociones consumidas"
+              placeholder={t('qrScanner.quantityInputPlaceholder')}
               keyboardType="numeric"
               value={quantityConsumed}
               onChangeText={handleQuantityChange}
@@ -399,7 +409,7 @@ const QRScanButton = () => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Monto consumido"
+              placeholder={t('qrScanner.amountInputPlaceholder')}
               keyboardType="numeric"
               value={amountSpent}
               onChangeText={setAmountSpent}
@@ -407,7 +417,7 @@ const QRScanButton = () => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Descripción"
+              placeholder={t('qrScanner.descriptionInputPlaceholder')}
               value={description}
               onChangeText={setDescription}
               editable={!!selectedPromotion}
@@ -416,10 +426,10 @@ const QRScanButton = () => {
               styles.confirmButton,
               !selectedPromotion && styles.disabledButton
             ]} disabled={!selectedPromotion}>
-              <Text style={styles.confirmButtonText}>Confirmar</Text>
+              <Text style={styles.confirmButtonText}>{t('qrScanner.confirmButton')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
-              <Text style={styles.cancelButtonText}>Cancelar</Text>
+              <Text style={styles.cancelButtonText}>{t('qrScanner.cancelButton')}</Text>
             </TouchableOpacity>
           </View>
         </View>

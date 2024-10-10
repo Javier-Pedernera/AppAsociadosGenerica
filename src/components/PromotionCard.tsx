@@ -12,6 +12,7 @@ import { formatDateToDDMMYYYY } from '../utils/formatDate';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Modal } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -24,6 +25,7 @@ interface PromotionCardProps {
 }
 
 const PromotionCard: React.FC<PromotionCardProps> = ({ promotion, index, handlePress, handleEdit, handleDelete }) => {
+  const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const [loadingImg, setLoadingImg] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -70,20 +72,20 @@ const PromotionCard: React.FC<PromotionCardProps> = ({ promotion, index, handleP
         />
         <View style={styles.previewOverlay}>
           <Ionicons name="eye" size={24} color="rgba(244, 244, 244,0.7)" />
-          <Text style={styles.previewText}>Vista Previa</Text>
+          <Text style={styles.previewText}>{t('promotionCard.preview')}</Text>
         </View>
       </View>
       <View style={styles.promotionContent}>
         <View style={styles.discountContainerText}>
           <Text style={styles.promotionTitle}>{promotion.title}</Text>
           <Text style={styles.promotionDates}>
-            Desde: {formatDateToDDMMYYYY(promotion.start_date)}
+          {t('promotionCard.from')}: {formatDateToDDMMYYYY(promotion.start_date)}
           </Text>
           <Text style={styles.promotionDates}>
-            Hasta: {formatDateToDDMMYYYY(promotion.expiration_date) }
+          {t('promotionCard.to')}: {formatDateToDDMMYYYY(promotion.expiration_date) }
           </Text>
           <Text style={styles.promotionDates}>
-            Disponibles: {promotion.available_quantity? promotion.available_quantity:'sin límite'}
+          {t('promotionCard.available')}: {promotion.available_quantity? promotion.available_quantity : t('promotionCard.unlimited')}
           </Text>
         </View>
         <View style={styles.discountContainer}>
@@ -109,13 +111,13 @@ const PromotionCard: React.FC<PromotionCardProps> = ({ promotion, index, handleP
     <Modal visible={isModalVisible} transparent={true} animationType="slide">
     <View style={styles.modalContainer}>
       <View style={styles.modalContent}>
-        <Text style={styles.modalText}>¿Estás seguro de que deseas eliminar esta promoción?</Text>
+        <Text style={styles.modalText}>{t('promotionCard.confirmDelete')}</Text>
         <View style={styles.modalButtons}>
           <TouchableOpacity onPress={confirmDelete} style={styles.confirmButton}>
-            <Text style={styles.buttonText}>Sí</Text>
+            <Text style={styles.buttonText}>{t('promotionCard.yes')}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={cancelDelete} style={styles.cancelButton}>
-            <Text style={styles.buttonText}>No</Text>
+            <Text style={styles.buttonText}>{t('promotionCard.no')}</Text>
           </TouchableOpacity>
         </View>
       </View>

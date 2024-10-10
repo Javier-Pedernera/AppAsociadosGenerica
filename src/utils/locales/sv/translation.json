@@ -23,6 +23,46 @@
       "associates": "ASSOCIERADE",
       "version": "Beta Version"
     },
+    "qrScanner": {
+    "scanQRButton": "Skanna QR",
+    "consumptionsButton": "Förbrukningar",
+    "invalidCode":"Ogiltig QR-kod",
+    "scanQRCode": "Du måste skanna QR-koden för den legitimation som gör konsumtionen.",
+    "permissionAlert": {
+      "title": "Kamerabehörighet krävs",
+      "message": "Kameratillgång krävs för att skanna QR-koden.",
+      "requestPermission": "Begär behörighet",
+      "cancel": "Avbryt",
+      "permissionDenied": "Behörighet nekad",
+      "goToSettings": "Aktivera kamerabehörighet i inställningarna."
+    },
+    "clientLabel": "Kund:",
+    "noUserDetected": "Användare inte upptäckt",
+    "selectPromotion": "Välj kampanjen att förbruka",
+    "selectPromotionPlaceholder": "* Välj en kampanj",
+    "availableQuantity": "Tillgänglig:",
+    "noLimit": "Ingen gräns",
+    "quantityInputPlaceholder": "Antal förbrukade kampanjer",
+    "amountInputPlaceholder": "Kostnad",
+    "descriptionInputPlaceholder": "Beskrivning",
+    "confirmButton": "Bekräfta",
+    "cancelButton": "Avbryt",
+    "successAlert": {
+      "title": "Framgång",
+      "message": "Framgångsrik registrering av kampanjförbrukning."
+    },
+    "errorAlert": {
+      "title": "Fel",
+      "message": "Misslyckades att registrera kampanjförbrukning. Försök igen."
+    },
+    "termsModal": {
+      "termsAccepted": "Villkor Godkända",
+      "termsNotAccepted": "Villkor Inte Godkända",
+      "termsAcceptedMessage": "Du har godkänt villkoren.",
+      "termsNotAcceptedMessage": "Du har avvisat villkoren.",
+      "logoutRedirect": "Du har omdirigerats till inloggning."
+    }
+  },
     "register": {
       "firstNamePlaceholder": "* Förnamn",
       "lastNamePlaceholder": "* Efternamn",
@@ -46,30 +86,49 @@
       "other": "Annat"
     },
     "branches": {
-    "searchByName": "Sök efter namn",
-    "searchByAddress": "Sök efter adress",
-    "noBranchesFound": "Inga filialer hittades."
+    "yourActiveBranches": "Dina aktiva filialer",
+    "view": "Visa",
+    "createBranch": "Skapa filial"
   },
   "promotions": {
-    "searchPromotions": "Sök erbjudande",
-    "keyword": "Nyckelord",
-    "start": "Start",
-    "end": "Slut",
-    "categories": "Kategorier",
-    "filters": "Kupongfilter",
-    "noPreferencesFound": "Kuponger enligt dina preferenser",
-    "morePreferences": "Visa enligt mina preferenser...",
-    "otherPromotions": "Andra erbjudande",
-    "viewAll": "visa alla...",
-    "applyCategories": "Tillämpa kategorier",
-    "close": "Stäng",
-    "clear": "Rensa",
-    "startDate": "Start",
-    "endDate": "Slut",
-    "categoriesModal": "Kategorier",
-    "confirmStartDate": "Bekräfta startdatum",
-    "confirmEndDate": "Bekräfta slutdatum"
-  },
+  "searchPromotions": "Sök kampanjer",
+  "keyword": "Nyckelord",
+  "start": "Start",
+  "end": "Slut",
+  "categories": "Kategorier",
+  "filters": "Kupongfilter",
+  "noPreferencesFound": "Kampanjer baserade på dina preferenser",
+  "morePreferences": "Visa baserat på mina preferenser...",
+  "otherPromotions": "Andra kampanjer",
+  "viewAll": "visa alla...",
+  "applyCategories": "Tillämpa kategorier",
+  "close": "Stäng",
+  "clear": "Rensa",
+  "categoriesModal": "Kategorier",
+  "confirmStartDate": "Bekräfta startdatum",
+  "confirmEndDate": "Bekräfta slutdatum",
+  "create": "Skapa",
+  "firstCreateBranch": "Du måste först skapa en filial",
+  "noPromotionsCreated": "Inga kampanjer skapade."
+},
+"promotionForm": {
+    "titlePlaceholder": "Titel",
+    "descriptionPlaceholder": "Beskrivning",
+    "discountPercentagePlaceholder": "Rabattprocent",
+    "availableQuantityPlaceholder": "Tillgänglig mängd",
+    "selectCategories": "Välj Kategorier",
+    "addImages": "Lägg till Bilder",
+    "confirmDate": "Bekräfta datum",
+    "createPromotion": "Skapa Kampanj",
+    "cancel": "Avbryt",
+    "startDate": "Startdatum (DD-MM-YYYY)",
+    "endDate": "Slutdatum (DD-MM-YYYY)",
+    "start": "Startar",
+    "end": "Slutar",
+    "error": "Vänligen fyll i alla fält",
+    "success": "Kampanjen har skapats framgångsrikt.",
+    "partnerError": "Kunde inte hämta partner- eller filial-ID. Vänligen försök igen."
+},
   "sidebar": {
     "profile": "Profil",
     "favorites": "Favoriter",
@@ -124,6 +183,41 @@
     "editCategories": "Redigera kategorier",
     "saveCategories": "Spara kategorier",
     "cancel": "Avbryt"
+  },
+  "promotionCard": {
+    "preview": "Förhandsvisning",
+    "from": "Från",
+    "to": "Till",
+    "available": "Tillgängliga",
+    "unlimited": "Obegränsat",
+    "confirmDelete": "Är du säker på att du vill ta bort denna kampanj?",
+    "yes": "Ja",
+    "no": "Nej"
+  },
+  "editPromotionForm": {
+    "title": "Titel",
+    "description": "Beskrivning",
+    "discountPercentage": "% rabatt",
+    "quantity": "Tillgänglig mängd",
+    "selectCategories": "Välj kategorier",
+    "currentImages": "Befintliga bilder",
+    "noImages": "Inga befintliga bilder.",
+    "startDateCurrent": "Aktuellt startdatum",
+    "startDate": "Startar",
+    "modifyStartDate": "Ändra startdatum",
+    "confirmDate": "Bekräfta datum",
+    "endDateCurrent": "Aktuellt slutdatum",
+    "endDate": "Slutar",
+    "modifyEndDate": "Ändra slutdatum",
+    "saveChanges": "Spara ändringar",
+    "cancel": "Avbryt",
+    "error": "Fel",
+    "completeFields": "Vänligen fyll i alla fält",
+    "success": "Framgång",
+    "promotionUpdated": "Kampanjen har uppdaterats framgångsrikt.",
+    "partnerBranchError": "Kunde inte hämta partner- eller filial-ID. Försök igen.",
+    "promotionIdError": "Inget kampanj-ID",
+    "updateError": "Ett problem uppstod när kampanjen skulle uppdateras. Försök igen."
   }
   }
   

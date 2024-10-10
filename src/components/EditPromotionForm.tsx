@@ -14,6 +14,7 @@ import { modifyPromotion } from '../redux/actions/promotionsActions';
 import { Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Loader from './Loader';
+import { useTranslation } from 'react-i18next';
 
 interface EditPromotionFormProps {
   promotion: Promotion;
@@ -21,6 +22,7 @@ interface EditPromotionFormProps {
 }
 
 const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClose }) => {
+  const { t } = useTranslation();
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector(getMemoizedUserData);
   const allCategories = useSelector(getMemoizedAllCategories);
@@ -83,17 +85,17 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
       dispatch(modifyPromotion(promotion.promotion_id, promotionData, deletedImageIds))
         .then(() => {
           setIsLoading(false)
-          Alert.alert('Éxito', 'La promoción ha sido actualizada correctamente.');
+          Alert.alert(t('editPromotionForm.success'), t('editPromotionForm.promotionUpdated'));
           onClose();
         })
         .catch((error: any) => {
           setIsLoading(false)
-          Alert.alert('Error', 'Hubo un problema al actualizar la promoción. Intente de nuevo.');
+          Alert.alert(t('editPromotionForm.error'), t('editPromotionForm.updateError'));
           console.error("Error al actualizar la promoción: ", error);
         });
     } else {
       setIsLoading(false)
-      Alert.alert('Error', 'No hay ID de promoción');
+      Alert.alert(t('editPromotionForm.error'), t('editPromotionForm.promotionIdError'));
     }
   };
 
@@ -141,33 +143,33 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
   return (
     <ScrollView contentContainerStyle={styles.formContainer}>
       {isLoading&& <Loader/>}
-      <Text style={styles.texttitle}>Título</Text>
+      <Text style={styles.texttitle}>{t('editPromotionForm.title')}</Text>
       <TextInput
         style={styles.input}
-        placeholder="Título"
+        placeholder={t('editPromotionForm.title')}
         value={title}
         onChangeText={setTitle}
       />
-      <Text style={styles.texttitle}>Descripción</Text>
+      <Text style={styles.texttitle}>{t('editPromotionForm.description')}</Text>
       <TextInput
         style={styles.descriptionInput}
-        placeholder="Descripción"
+        placeholder={t('editPromotionForm.description')}
         value={description}
         onChangeText={setDescription}
         multiline
       />
-      <Text style={styles.texttitle}>% de descuento</Text>
+      <Text style={styles.texttitle}>{t('editPromotionForm.discountPercentage')}</Text>
       <TextInput
         style={styles.input}
-        placeholder="Porcentaje de Descuento"
+        placeholder={t('editPromotionForm.discountPercentage')}
         keyboardType="numeric"
         value={typeof discountPercentage === 'number' ? discountPercentage.toString() : ''}
         onChangeText={(text) => setDiscountPercentage(Number(text))}
       />
-      <Text style={styles.texttitle}>Cantidad</Text>
+      <Text style={styles.texttitle}>{t('editPromotionForm.quantity')}</Text>
       <TextInput
         style={styles.input}
-        placeholder="Cantidad Disponible"
+        placeholder={t('editPromotionForm.quantity')}
         keyboardType="numeric"
         value={typeof availableQuantity === 'number' ? availableQuantity.toString() : ''}
         onChangeText={(text) => setAvailableQuantity(Number(text))}
@@ -177,7 +179,7 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
         onPress={() => setCategoriesModalVisible(true)}
       >
         <MaterialIcons name="category" size={24} color="#fff" />
-        <Text style={styles.submitButtonText}>Seleccionar Categorías</Text>
+        <Text style={styles.submitButtonText}>{t('editPromotionForm.selectCategories')}</Text>
       </TouchableOpacity>
       <CategoryPicker
         categories={allCategories}
@@ -188,7 +190,7 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
       />
       {/* Mostrar las imágenes existentes */}
       <MultiImageCompressor onImagesCompressed={handleImagesCompressed} />
-      <Text style={styles.texttitle}>Imágenes actuales</Text>
+      <Text style={styles.texttitle}>{t('editPromotionForm.currentImages')}</Text>
       <View style={styles.imagesContainer}>
         {existingImages.length > 0 ? (
           existingImages.map((image: any, index: any) => (
@@ -206,14 +208,14 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
             </View>
           ))
         ) : (
-          <Text>No hay imágenes existentes.</Text>
+          <Text>{t('editPromotionForm.noImages')}</Text>
         )}
       </View>
 
       {/* Mostrar las fechas */}
       <View style={styles.datePickerContainer}>
-        {!startDate ? <Text style={styles.textDateActual}>Fecha de inicio actual: {formatDateToDDMMYYYY(promotion.start_date)} </Text> : <Text></Text>}
-        {startDate ? <Text style={styles.texttitle}>Inicia</Text> : <Text></Text>}
+        {!startDate ? <Text style={styles.textDateActual}>{t('editPromotionForm.startDateCurrent')}: {formatDateToDDMMYYYY(promotion.start_date)} </Text> : <Text></Text>}
+        {startDate ? <Text style={styles.texttitle}>{t('editPromotionForm.startDate')}</Text> : <Text></Text>}
         {!showStartDatePicker && (
           <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={styles.inputdate}>
             <Text style={styles.textDate}>
@@ -231,7 +233,7 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
             />
             {Platform.OS === 'ios' && (
               <TouchableOpacity onPress={confirmStartDate} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Confirmar fecha</Text>
+                <Text style={styles.submitButtonText}>{t('editPromotionForm.confirmDate')}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -239,12 +241,12 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
       </View>
 
       <View style={styles.datePickerContainer}>
-        {!endDate ? <Text style={styles.textDateActual}>Fecha de fin actual: {formatDateToDDMMYYYY(promotion.expiration_date)} </Text> : <Text></Text>}
-        {endDate ? <Text style={styles.texttitle}>Finaliza</Text> : <Text></Text>}
+        {!endDate ? <Text style={styles.textDateActual}>{t('editPromotionForm.endDateCurrent')}: {formatDateToDDMMYYYY(promotion.expiration_date)} </Text> : <Text></Text>}
+        {endDate ? <Text style={styles.texttitle}>{t('editPromotionForm.endDate')}</Text> : <Text></Text>}
         {!showEndDatePicker && (
           <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={styles.inputdate}>
             <Text style={styles.textDate}>
-              {endDate ? formatDateToDDMMYYYY(endDate.toISOString().split('T')[0]) : 'Modificar fecha de Fin'}
+              {endDate ? formatDateToDDMMYYYY(endDate.toISOString().split('T')[0]) : t('editPromotionForm.modifyEndDate')}
             </Text>
           </TouchableOpacity>
         )}
@@ -258,7 +260,7 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
             />
             {Platform.OS === 'ios' && (
               <TouchableOpacity onPress={confirmEndDate} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>Confirmar fecha</Text>
+                <Text style={styles.submitButtonText}>{t('editPromotionForm.confirmDate')}</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -266,10 +268,10 @@ const EditPromotionForm: React.FC<EditPromotionFormProps> = ({ promotion, onClos
       </View>
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>Guardar Cambios</Text>
+        <Text style={styles.submitButtonText}>{t('editPromotionForm.saveChanges')}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-        <Text style={styles.submitButtonText}>Cancelar</Text>
+        <Text style={styles.submitButtonText}>{t('editPromotionForm.cancel')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

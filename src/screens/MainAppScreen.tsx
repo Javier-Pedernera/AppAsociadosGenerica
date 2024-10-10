@@ -41,6 +41,7 @@ const MainTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        
         tabBarIcon: ({ color, size }) => {
           const iconName = getIconName(route.name);
           const isFocused = focusedTab === route.name;
@@ -69,6 +70,7 @@ const MainTabs = () => {
         },
         tabBarActiveTintColor: 'rgb(0, 122, 140)',
         tabBarInactiveTintColor: '#aaa',
+        tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: '#fff',
           borderTopWidth: 0,
