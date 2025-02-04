@@ -89,26 +89,30 @@ setLoading(true)
   const handleStartDateChange = (event: any, date?: Date) => {
     if (Platform.OS === 'ios') {
       setStartDate(date || startDate);
+      setEndDate(null);
     } else {
       if (date) {
         setStartDate(date);
+        setEndDate(null);
       }
       setShowStartDatePicker(false);
     }
   };
 
   const handleEndDateChange = (event: any, date?: Date) => {
-    if (Platform.OS === 'ios') {
-      setEndDate(date || endDate);
-    } else {
-      if (date) {
-        setEndDate(date);
+    if (date) {
+      if (startDate && date <= startDate) {
+        Alert.alert('Error', 'La fecha de fin debe ser posterior a la fecha de inicio.');
+        setShowEndDatePicker(false)
+        return;
       }
-      setShowEndDatePicker(false);
+      setEndDate(date);
     }
+    setShowEndDatePicker(false);
   };
 
   const confirmStartDate = () => {
+    // console.log("fecha de inicio confirmada", startDate);
     if (startDate) {
       setStartDate(startDate);
     }
@@ -121,6 +125,16 @@ setLoading(true)
     }
     setShowEndDatePicker(false);
   };
+
+  const ShowDatePicker = (show:string) => {
+    if(show == "init"){
+      setShowStartDatePicker(true);
+      setShowEndDatePicker(false);
+    }else{
+      setShowStartDatePicker(false);
+      setShowEndDatePicker(true);
+    }
+  }
   return (
     
     <ScrollView contentContainerStyle={styles.formContainer}>
@@ -172,10 +186,10 @@ setLoading(true)
       {/* Mostrar las fechas */}
       <View style={styles.datePickerContainer}>
         {!showStartDatePicker && (
-          <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={styles.inputdate}>
-            {startDate ? <Text style={styles.textDate}>{t('promotionForm.start')}</Text> : <Text></Text>}
+          <TouchableOpacity onPress={() => ShowDatePicker("init")} style={styles.inputdate}>
+            {startDate ? <Text style={styles.textDate}>Inicia</Text> : <Text></Text>}
             <Text style={styles.textDate}>
-              {startDate ? formatDateToDDMMYYYY(startDate.toISOString().split('T')[0]) : t('promotionForm.startDate')}
+              {startDate ? formatDateToDDMMYYYY(startDate.toISOString().split('T')[0]) : 'Fecha de Inicio (DD-MM-YYYY)'}
             </Text>
           </TouchableOpacity>
         )}
@@ -189,7 +203,7 @@ setLoading(true)
             />
             {Platform.OS === 'ios' && (
               <TouchableOpacity onPress={confirmStartDate} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>{t('promotionForm.confirmDate')}</Text>
+                <Text style={styles.submitButtonText}>Confirmar fecha de inicio</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -198,10 +212,10 @@ setLoading(true)
 
       <View style={styles.datePickerContainer}>
         {!showEndDatePicker && (
-          <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={styles.inputdate}>
-            {endDate ? <Text style={styles.textDate}>{t('promotionForm.end')}</Text> : <Text></Text>}
+          <TouchableOpacity onPress={() => ShowDatePicker("end")} style={[styles.inputdate, !startDate && { opacity: 0.5 }]} disabled={!startDate}>
+            {endDate ? <Text style={styles.textDate}>Finaliza</Text> : <Text></Text>}
             <Text style={styles.textDate}>
-              {endDate ? formatDateToDDMMYYYY(endDate.toISOString().split('T')[0]) : t('promotionForm.endDate')}
+              {endDate ? formatDateToDDMMYYYY(endDate.toISOString().split('T')[0]) : 'Fecha de Fin (DD-MM-YYYY)'}
             </Text>
           </TouchableOpacity>
         )}
@@ -215,7 +229,7 @@ setLoading(true)
             />
             {Platform.OS === 'ios' && (
               <TouchableOpacity onPress={confirmEndDate} style={styles.submitButton}>
-                <Text style={styles.submitButtonText}>{t('promotionForm.confirmDate')}</Text>
+                <Text style={styles.submitButtonText}>Confirmar fecha de fin</Text>
               </TouchableOpacity>
             )}
           </View>

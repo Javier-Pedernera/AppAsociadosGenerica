@@ -48,7 +48,9 @@ const ForgotPasswordScreen: React.FC = () => {
       <TouchableOpacity style={styles.button} onPress={handleSendResetEmail}>
         <Text style={styles.buttonText}>Enviar</Text>
       </TouchableOpacity>
-
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.backButtonText}>Cancelar</Text>
+      </TouchableOpacity>
       <Modal isVisible={isModalVisible}>
         <View style={styles.modalContent}>
           <Text style={styles.modalMessage}>{modalMessage}</Text>
@@ -139,6 +141,25 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  backButton: {
+    backgroundColor: '#ddd',
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    marginTop: 10,
+    width: '50%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.5,
+    shadowRadius: 1,
+    elevation: 1,
+  },
+  backButtonText: {
+    color: '#007A8C',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 
